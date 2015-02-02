@@ -1,6 +1,8 @@
-# #uberdata trip scraper
+# #uberdata trip script
 
-Really quick and dirty scraper that pulls your trip data from Uber and saves it as geoJSON.  Based on [https://github.com/joshhunt/uber](https://github.com/joshhunt/uber)
+Note: This code is provided for reference purposes only.  
+
+Really quick and dirty script that pulls your trip data from Uber and saves it as geoJSON.  Based on [https://github.com/joshhunt/uber](https://github.com/joshhunt/uber)
 
 Differences from the source linked above:
 -No more coffeescript
