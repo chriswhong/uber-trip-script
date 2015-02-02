@@ -26,4 +26,4 @@ Then run with `node app.js`. Lots of progress logs are shown. At the end, it wil
 
 When you're done, copy and paste your data into [geojsonlint.com](geojsonlint.com) to check it out!  Happy Mapping!
 
-![Alt text](https://www.evernote.com/shard/s288/sh/859c0fd7-43f1-4aa1-bbcc-bcdfe853d8de/f04fdfb4d39af792b3501c92bb81e578)
+![Imgur](http://i.imgur.com/YTlzooi.png)
