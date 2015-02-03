@@ -26,6 +26,6 @@ Just run `npm install`to install dependancies, then you'll need to create a `con
 
 Then run with `node app.js`. Lots of progress logs are shown. At the end, it will generate `uberData.geojson`.  
 
-When you're done, copy and paste your data into [geojsonlint.com](geojsonlint.com) to check it out!  Happy Mapping!
+When you're done, copy and paste your data into [geojsonlint.com](http://geojsonlint.com) to check it out!  Happy Mapping!
 
 ![Imgur](http://i.imgur.com/YTlzooi.png)
