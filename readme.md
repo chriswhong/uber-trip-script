@@ -22,7 +22,7 @@ Just run `npm install`to install dependancies, then you'll need to create a `con
 }
 ```
 
-`Username` and `password` are pretty self explanatory, `tripPages` is the max number of trips pages you have at `https://riders.uber.com/trip`
+`Username` and `password` are pretty self explanatory, `tripPages` is the max number of trips pages you have at [https://riders.uber.com/trips](https://riders.uber.com/trips)
 
 Then run with `node app.js`. Lots of progress logs are shown. At the end, it will generate `uberData.geojson`.  
 
