@@ -23,8 +23,21 @@ Just run `npm install`to install dependancies, then you'll need to create a `con
 ```
 
 `Username` and `password` are pretty self explanatory, `tripPages` is the max number of trips pages you have at [https://riders.uber.com/trips](https://riders.uber.com/trips)
+## Usage
+```sh
+$ node app.js
+Requesting login page...
+Logging in as your@email.com
+Cool, logged in.
+Getting pages [ 1, 2, 3, 4 ]
+Fetching https://riders.uber.com/trips?page=1
+Fetching https://riders.uber.com/trips?page=2
+Fetching https://riders.uber.com/trips?page=3
+Fetching https://riders.uber.com/trips?page=4
+Fetched all pages, got 4 results
+```
 
-Then run with `node app.js`. Lots of progress logs are shown. At the end, it will generate `uberData.geojson`.  
+Lots of progress logs are shown, at the end it will generate `uberData.geojson`.
 
 When you're done, copy and paste your data into [geojsonlint.com](http://geojsonlint.com) to check it out!  Happy Mapping!
 
