@@ -6,15 +6,23 @@ Really quick and dirty script that pulls your trip data from Uber and saves it a
 
 Differences from the source linked above:
 
-## Setup
 - No more coffeescript
 - Outputs to valid geoJSON FeatureCollection
 - Some bug fixes that had to do with some changes to the Uber page
 - Some bug fixes to skip cancelled trips or other trips that don't have good data
 
-Just run `npm install`to install dependancies, then you'll need to create a `config.json` with the following keys:
+## Install
+```sh
+# Clone the source code
+$ git clone https://github.com/chriswhong/uber-trip-script.git && cd ./uber-trip-script
 
+# Install NPM dependencies
+$ npm install
 ```
+
+Create `config.json` with the following keys:
+
+```json
 {
     "username": "your@email.com",
     "password": "yourSecurePassword",
@@ -22,7 +30,8 @@ Just run `npm install`to install dependancies, then you'll need to create a `con
 }
 ```
 
-`Username` and `password` are pretty self explanatory, `tripPages` is the max number of trips pages you have at [https://riders.uber.com/trips](https://riders.uber.com/trips)
+`username` and `password` are pretty self explanatory, `tripPages` is the max number of trips pages you have at [https://riders.uber.com/trips](https://riders.uber.com/trips)
+
 ## Usage
 ```sh
 $ node app.js
