@@ -84,15 +84,13 @@ var requestTripList = function(page, cb) {
   });
 };
 
-  var pagesToGet, _i, _ref, _results;
 var startParsing = function() {
   console.log('Cool, logged in.');
-  pagesToGet = (function() {
-    _results = [];
-    for (var _i = 1, _ref = config.tripPages; 1 <= _ref ? _i <= _ref : _i >= _ref; 1 <= _ref ? _i++ : _i--){ _results.push(_i); }
-    return _results;
-  }).apply(this);
   
+  var pagesToGet = [];
+  for (var i = 1; i < config.tripPages + 1; i++) {
+    pagesToGet.push(i);
+  }
 
   console.log('Getting pages', pagesToGet);
   
