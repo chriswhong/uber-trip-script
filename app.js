@@ -111,7 +111,7 @@ var startParsing = function() {
       return $(trip).attr('data-target').slice(6);
     }).toArray();
     
-    console.log(tripIds); //array of all trip IDs
+    console.log(tripIds); // array of all trip IDs
     
     return async.map(tripIds, downloadTrip, function(err, results) {
       if (err) {
@@ -120,12 +120,12 @@ var startParsing = function() {
 
       console.log('Finished downloading all trips');
 
-      //parse results and remove those that were errors
+      // parse results and remove those that were errors
       for (var i = results.length; i--;) {
         if (results[i] == "error") {
           results.splice(i, 1);
         }
-      };
+      }
 
       var featureCollection = {
         type: "FeatureCollection",
