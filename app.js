@@ -1,32 +1,20 @@
-var CAR_MAP, CONCURRENCY, LOGIN_URL, async, cheerio, config, downloadTrip, fs, login, moment, parseStats, path, request, requestTripList, startParsing, url, writeToFile, _;
-
-fs = require('fs');
-
-path = require('path');
-
-url = require('url');
-
-_ = require('underscore');
-
-async = require('async');
-
-request = require('request');
-
-cheerio = require('cheerio');
-
-moment = require('moment');
-
-request = request.defaults({
+var fs = require('fs');
+var path = require('path');
+var url = require('url');
+var _ = require('underscore');
+var async = require('async');
+var request = require('request');
+var cheerio = require('cheerio');
+var moment = require('moment');
+var request = request.defaults({
   jar: true
 });
 
-CONCURRENCY = 3;
+var config = require('./config.json');
 
-LOGIN_URL = 'https://login.uber.com/login';
-
-config = require('./config.json');
-
-CAR_MAP = {
+var CONCURRENCY = 3;
+var LOGIN_URL = 'https://login.uber.com/login';
+var CAR_MAP = {
   'uberx': 'UberX',
   'suv': 'UberSUV',
   'black': 'UberBlack',
@@ -34,7 +22,8 @@ CAR_MAP = {
   'taxi': 'Taxi'
 };
 
-writeToFile = function(filename, data) {
+
+var writeToFile = function(filename, data) {
   filename = path.join('tmp', filename);
   return fs.writeFile(filename, data, function() {});
 };
@@ -50,10 +39,10 @@ request(LOGIN_URL, function(err, res, body) {
   return login(config.username, config.password, csrf);
 });
 
-login = function(user, pass, csrf) {
   var form;
 
   form = {
+var login = function(user, pass, csrf) {
     'email': user,
     'password': pass,
     '_csrf_token': csrf,
@@ -80,10 +69,10 @@ login = function(user, pass, csrf) {
   });
 };
 
-requestTripList = function(page, cb) {
   var listUrl, options;
   listUrl = "https://riders.uber.com/trips?page=" + page;
   options = {
+var requestTripList = function(page, cb) {
     url: listUrl,
     headers: {
       'x-ajax-replace': true
@@ -96,8 +85,8 @@ requestTripList = function(page, cb) {
   });
 };
 
-startParsing = function() {
   var pagesToGet, _i, _ref, _results;
+var startParsing = function() {
   console.log('Cool, logged in.');
   pagesToGet = (function() {
     _results = [];
@@ -143,10 +132,9 @@ startParsing = function() {
   });
 };
 
-downloadTrip = function(tripId, cb) {
-
   var tripUrl;
   tripUrl = "https://riders.uber.com/trips/" + tripId;
+var downloadTrip = function(tripId, cb) {
   console.log("Downloading trip " + tripId);
   return request(tripUrl, function(err, res, body) {
     if (err) {
@@ -157,7 +145,7 @@ downloadTrip = function(tripId, cb) {
   });
 };
 
-parseStats = function(tripId, html, cb) {
+var parseStats = function(tripId, html, cb) {
   var $, $rating, imgSrc, rawJourney, stats, tripAttributes, urlParts;
   stats = {
    type:"Feature",
