@@ -22,12 +22,6 @@ var CAR_MAP = {
   'taxi': 'Taxi'
 };
 
-
-var writeToFile = function(filename, data) {
-  filename = path.join('tmp', filename);
-  return fs.writeFile(filename, data, function() {});
-};
-
 console.log('Requesting login page...');
 
 request(LOGIN_URL, function(err, res, body) {
@@ -79,7 +73,6 @@ var requestTripList = function(page, cb) {
   console.log('Fetching', listUrl);
 
   return request(options, function(err, res, body) {
-    writeToFile("list-" + page + ".html", body);
     return cb(err, body);
   });
 };
@@ -102,8 +95,6 @@ var startParsing = function() {
     console.log("Fetched all pages, got " + result.length + " results");
     
     var combined = result.join(' ');
-    
-    writeToFile('lists-combined.html', combined);
     var $ = cheerio.load(combined);
     
     var trips = $('.trip-expand__origin');
@@ -132,7 +123,6 @@ var startParsing = function() {
         features: results
       };
 
-      // return writeToFile('uberRideStats.json', JSON.stringify(featureCollection));
       return fs.writeFile('uberData.geojson', JSON.stringify(featureCollection));
     });
   });
@@ -148,7 +138,6 @@ var downloadTrip = function(tripId, cb) {
       throw err;
     }
 
-    writeToFile("trip-" + tripId + ".html", body);
     return parseStats(tripId, body, cb);
   });
 };
@@ -259,8 +248,6 @@ var parseStats = function(tripId, html, cb) {
   stats.properties.startAddress = $('.trip-address:first-child h6').text();
   stats.properties.date = $('.page-lead div').text();
   stats.properties.driverName = $('.trip-details__review .grid__item:first-child td:last-child').text().replace('You rode with ', '');
-
-  // writeToFile("stats-" + tripId + ".json", JSON.stringify(stats));
 
   return cb(null, stats);
 };
