@@ -5,12 +5,12 @@ Note: This code is provided for reference purposes only.
 Really quick and dirty script that pulls your trip data from Uber and saves it as geoJSON.  Based on [https://github.com/joshhunt/uber](https://github.com/joshhunt/uber)
 
 Differences from the source linked above:
--No more coffeescript
--Outputs to valid geoJSON FeatureCollection
--Some bug fixes that had to do with some changes to the Uber page
--Some bug fixes to skip cancelled trips or other trips that don't have good data
 
 ## Setup
+- No more coffeescript
+- Outputs to valid geoJSON FeatureCollection
+- Some bug fixes that had to do with some changes to the Uber page
+- Some bug fixes to skip cancelled trips or other trips that don't have good data
 
 Just run `npm install`to install dependancies, then you'll need to create a `config.json` with the following keys:
 
