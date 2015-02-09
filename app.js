@@ -31,13 +31,11 @@ var writeToFile = function(filename, data) {
 console.log('Requesting login page...');
 
 request(LOGIN_URL, function(err, res, body) {
-
   var $ = cheerio.load(body);
   var csrf = $('[name=_csrf_token]').val();
 
   return login(config.username, config.password, csrf);
 });
-
 
 var login = function(user, pass, csrf) {
   var form = {
@@ -48,7 +46,9 @@ var login = function(user, pass, csrf) {
     'redirect_url': 'https://riders.uber.com/trips',
     'request_source': 'www.uber.com'
   };
+
   console.log('Logging in as ' + user);
+
   return request.post(LOGIN_URL, {
     form: form
   }, function(err, res, body) {
@@ -61,6 +61,7 @@ var login = function(user, pass, csrf) {
       if (err) {
         throw err;
       }
+
       return startParsing();
     });
   });
@@ -74,7 +75,9 @@ var requestTripList = function(page, cb) {
       'x-ajax-replace': true
     }
   };
+
   console.log('Fetching', listUrl);
+
   return request(options, function(err, res, body) {
     writeToFile("list-" + page + ".html", body);
     return cb(err, body);
@@ -89,24 +92,34 @@ var startParsing = function() {
     for (var _i = 1, _ref = config.tripPages; 1 <= _ref ? _i <= _ref : _i >= _ref; 1 <= _ref ? _i++ : _i--){ _results.push(_i); }
     return _results;
   }).apply(this);
+  
+
   console.log('Getting pages', pagesToGet);
+  
   return async.mapLimit(pagesToGet, CONCURRENCY, requestTripList, function(err, result) {
     if (err) {
       throw err;
     }
+    
     console.log("Fetched all pages, got " + result.length + " results");
+    
     var combined = result.join(' ');
+    
     writeToFile('lists-combined.html', combined);
     var $ = cheerio.load(combined);
+    
     var trips = $('.trip-expand__origin');
     var tripIds = trips.map(function(i, trip) {
       return $(trip).attr('data-target').slice(6);
     }).toArray();
+    
     console.log(tripIds); //array of all trip IDs
+    
     return async.map(tripIds, downloadTrip, function(err, results) {
       if (err) {
         throw err;
       }
+
       console.log('Finished downloading all trips');
 
       //parse results and remove those that were errors
@@ -129,11 +142,14 @@ var startParsing = function() {
 
 var downloadTrip = function(tripId, cb) {
   var tripUrl = "https://riders.uber.com/trips/" + tripId;
+  
   console.log("Downloading trip " + tripId);
+  
   return request(tripUrl, function(err, res, body) {
     if (err) {
       throw err;
     }
+
     writeToFile("trip-" + tripId + ".html", body);
     return parseStats(tripId, body, cb);
   });
