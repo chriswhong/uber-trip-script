@@ -48,6 +48,7 @@ Fetched all pages, got 4 results
 
 Lots of progress logs are shown, at the end it will generate `uberData.geojson`.
 
-When you're done, copy and paste your data into [geojsonlint.com](http://geojsonlint.com) to check it out!  Happy Mapping!
+## Mapping
+Copy and paste your `.geojson` data into a service like [geojson.io](http://geojson.io/) or [geojsonlint.com](http://geojsonlint.com).
 
-![Imgur](http://i.imgur.com/YTlzooi.png)
+![geojsonlint screenshot](http://i.imgur.com/YTlzooi.png)
