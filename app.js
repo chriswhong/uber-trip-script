@@ -32,17 +32,15 @@ console.log('Requesting login page...');
 
 request(LOGIN_URL, function(err, res, body) {
 
-  var $, csrf;
-  $ = cheerio.load(body);
-  csrf = $('[name=_csrf_token]').val();
+  var $ = cheerio.load(body);
+  var csrf = $('[name=_csrf_token]').val();
 
   return login(config.username, config.password, csrf);
 });
 
-  var form;
 
-  form = {
 var login = function(user, pass, csrf) {
+  var form = {
     'email': user,
     'password': pass,
     '_csrf_token': csrf,
@@ -54,12 +52,11 @@ var login = function(user, pass, csrf) {
   return request.post(LOGIN_URL, {
     form: form
   }, function(err, res, body) {
-    var redirectUrl, resp;
     if (err) {
       throw err;
     }
 
-    redirectUrl = 'https://riders.uber.com/trips';
+    var redirectUrl = 'https://riders.uber.com/trips';
     return request(redirectUrl, function(err) {
       if (err) {
         throw err;
@@ -69,10 +66,9 @@ var login = function(user, pass, csrf) {
   });
 };
 
-  var listUrl, options;
-  listUrl = "https://riders.uber.com/trips?page=" + page;
-  options = {
 var requestTripList = function(page, cb) {
+  var listUrl = "https://riders.uber.com/trips?page=" + page;
+  var options = {
     url: listUrl,
     headers: {
       'x-ajax-replace': true
@@ -95,16 +91,15 @@ var startParsing = function() {
   }).apply(this);
   console.log('Getting pages', pagesToGet);
   return async.mapLimit(pagesToGet, CONCURRENCY, requestTripList, function(err, result) {
-    var $, combined, tripIds, trips;
     if (err) {
       throw err;
     }
     console.log("Fetched all pages, got " + result.length + " results");
-    combined = result.join(' ');
+    var combined = result.join(' ');
     writeToFile('lists-combined.html', combined);
-    $ = cheerio.load(combined);
-    trips = $('.trip-expand__origin');
-    tripIds = trips.map(function(i, trip) {
+    var $ = cheerio.load(combined);
+    var trips = $('.trip-expand__origin');
+    var tripIds = trips.map(function(i, trip) {
       return $(trip).attr('data-target').slice(6);
     }).toArray();
     console.log(tripIds); //array of all trip IDs
@@ -122,19 +117,18 @@ var startParsing = function() {
       };
 
       var featureCollection = {
-        type:"FeatureCollection",
-        features:results
+        type: "FeatureCollection",
+        features: results
       };
 
-      //return writeToFile('uberRideStats.json', JSON.stringify(featureCollection));
+      // return writeToFile('uberRideStats.json', JSON.stringify(featureCollection));
       return fs.writeFile('uberData.geojson', JSON.stringify(featureCollection));
     });
   });
 };
 
-  var tripUrl;
-  tripUrl = "https://riders.uber.com/trips/" + tripId;
 var downloadTrip = function(tripId, cb) {
+  var tripUrl = "https://riders.uber.com/trips/" + tripId;
   console.log("Downloading trip " + tripId);
   return request(tripUrl, function(err, res, body) {
     if (err) {
