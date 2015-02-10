@@ -209,8 +209,10 @@ var parseStats = function(tripId, html, cb) {
         key = 'fareUberCredit';
     }
 
-    if (label.indexOf('charged') > -1) {
+    if (typeof(label) != "undefined" && label.indexOf('charged') > -1) {
       key = 'charged';
+    } else {
+      key = '';
     }
 
     return stats.properties[key || label] = value;
