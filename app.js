@@ -6,6 +6,7 @@ var async = require('async');
 var request = require('request');
 var cheerio = require('cheerio');
 var moment = require('moment');
+var polyline = require('polyline')
 var request = request.defaults({
   jar: true
 });
@@ -79,31 +80,31 @@ var requestTripList = function(page, cb) {
 
 var startParsing = function() {
   console.log('Cool, logged in.');
-  
+
   var pagesToGet = [];
   for (var i = 1; i < config.tripPages + 1; i++) {
     pagesToGet.push(i);
   }
 
   console.log('Getting pages', pagesToGet);
-  
+
   return async.mapLimit(pagesToGet, CONCURRENCY, requestTripList, function(err, result) {
     if (err) {
       throw err;
     }
-    
+
     console.log("Fetched all pages, got " + result.length + " results");
-    
+
     var combined = result.join(' ');
     var $ = cheerio.load(combined);
-    
+
     var trips = $('.trip-expand__origin');
     var tripIds = trips.map(function(i, trip) {
       return $(trip).attr('data-target').slice(6);
     }).toArray();
-    
+
     console.log(tripIds); // array of all trip IDs
-    
+
     return async.map(tripIds, downloadTrip, function(err, results) {
       if (err) {
         throw err;
@@ -130,9 +131,9 @@ var startParsing = function() {
 
 var downloadTrip = function(tripId, cb) {
   var tripUrl = "https://riders.uber.com/trips/" + tripId;
-  
+
   console.log("Downloading trip " + tripId);
-  
+
   return request(tripUrl, function(err, res, body) {
     if (err) {
       throw err;
@@ -162,10 +163,12 @@ var parseStats = function(tripId, html, cb) {
     return cb(null, "error");
   }
 
-  var rawJourney = urlParts.query.path.split('|').slice(2);
+  var encodedPolyline = urlParts.query.path.split('enc:').slice(1);
+  var rawJourney = polyline.decode(encodedPolyline[0]);
 
   stats.geometry.coordinates = _.map(rawJourney, function(pair) {
-    var split = pair.split(',');
+    var stringPair = pair.toString();
+    var split = stringPair.split(',');
     split.reverse(); //x,y instead of y,x provided (lat,lon)
     split[0] = parseFloat(split[0]);
     split[1] = parseFloat(split[1]);

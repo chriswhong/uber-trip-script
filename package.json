@@ -10,6 +10,7 @@
     "q": "^1.0.1",
     "request": "^2.37.0",
     "tough-cookie": "^0.12.1",
-    "underscore": "^1.6.0"
+    "underscore": "^1.6.0",
+    "polyline": "^0.2.0"
   }
 }
